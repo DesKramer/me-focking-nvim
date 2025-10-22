@@ -111,14 +111,19 @@ return {
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
       end
 
-      -- Setup LSP servers
-      local lspconfig = require("lspconfig")
+      -- Setup LSP servers using vim.lsp.config (Neovim 0.11+)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+      -- Helper to merge common opts
+      local function with_common(opts)
+        opts = opts or {}
+        opts.capabilities = capabilities
+        opts.on_attach = on_attach
+        return opts
+      end
+
       -- Lua
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config.lua_ls = with_common({
         settings = {
           Lua = {
             diagnostics = {
@@ -132,17 +137,14 @@ return {
           },
         },
       })
+      vim.lsp.enable("lua_ls")
 
       -- TypeScript/JavaScript
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
+      vim.lsp.config.ts_ls = with_common({})
+      vim.lsp.enable("ts_ls")
 
       -- Python
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config.pyright = with_common({
         settings = {
           python = {
             analysis = {
@@ -154,11 +156,10 @@ return {
           },
         },
       })
+      vim.lsp.enable("pyright")
 
       -- Rust
-      lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config.rust_analyzer = with_common({
         settings = {
           ["rust-analyzer"] = {
             checkOnSave = {
@@ -207,11 +208,10 @@ return {
           },
         },
       })
+      vim.lsp.enable("rust_analyzer")
 
       -- Go
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config.gopls = with_common({
         settings = {
           gopls = {
             analyses = {
@@ -232,14 +232,12 @@ return {
           },
         },
       })
+      vim.lsp.enable("gopls")
 
       -- Other servers with default config
-      local servers = { "html", "cssls", "tailwindcss", "jsonls", "yamlls", "eslint" }
-      for _, server in ipairs(servers) do
-        lspconfig[server].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-        })
+      for _, server in ipairs({ "html", "cssls", "tailwindcss", "jsonls", "yamlls", "eslint" }) do
+        vim.lsp.config[server] = with_common({})
+        vim.lsp.enable(server)
       end
     end,
   },
