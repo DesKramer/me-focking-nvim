@@ -103,6 +103,31 @@ return {
 		end,
 	},
 
+	-- Show current context (function/class) at the top of the window
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			require("treesitter-context").setup({
+				enable = true,
+				max_lines = 3, -- number of lines to show for context, 0 for unlimited
+				multiline_threshold = 20,
+				trim_scope = "outer",
+				mode = "cursor",
+				separator = "─",
+				zindex = 20,
+				on_attach = nil,
+			})
+			-- Keymaps
+			vim.keymap.set("n", "<leader>uc", function()
+				require("treesitter-context").toggle()
+			end, { desc = "Toggle Treesitter Context" })
+			vim.keymap.set("n", "[c", function()
+				require("treesitter-context").go_to_context()
+			end, { desc = "Jump to context" })
+		end,
+	},
+ 
 	-- Debugging (simplified configuration)
 	{
 		"mfussenegger/nvim-dap",
