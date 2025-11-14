@@ -103,7 +103,7 @@ return {
 				dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 			}
 
-			dashboard.section.footer.val = "🚀 Happy Coding!"
+			dashboard.section.footer.val = "BREAK SHIT GET CRACKED!"
 
 			dashboard.config.opts.noautocmd = true
 
@@ -136,4 +136,3 @@ return {
 		"nvim-telescope/telescope-symbols.nvim",
 	},
 }
-
