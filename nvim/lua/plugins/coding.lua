@@ -1,19 +1,6 @@
 -- Coding assistance plugins
 
 return {
-	-- COSINE GENIE
-	{
-		dir = "/Users/desmondkramer/Documents/Code/cosine-monorepo/apps/neovim/",
-		name = "cosine-neovim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim", -- optional for :CosinePickChanges
-		},
-		config = function()
-			require("cosine").setup()
-		end,
-	},
-
 	-- Treesitter for better syntax highlighting
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -127,7 +114,7 @@ return {
 			end, { desc = "Jump to context" })
 		end,
 	},
- 
+
 	-- Debugging (simplified configuration)
 	{
 		"mfussenegger/nvim-dap",
