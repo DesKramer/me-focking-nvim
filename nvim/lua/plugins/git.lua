@@ -149,4 +149,29 @@ return {
       })
     end,
   },
+
+  -- Lazygit integration
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<CR>", desc = "LazyGit" },
+    },
+    config = function()
+      -- Load Telescope extension if available
+      pcall(function()
+        require("telescope").load_extension("lazygit")
+      end)
+    end,
+  },
 }
